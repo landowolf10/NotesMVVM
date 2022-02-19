@@ -14,7 +14,7 @@ import retrofit2.HttpException
 
 class UserRemoteDataSource
 {
-    private val service: UserRemoteService = RetrofitBuilder.retrofit.create(UserRemoteService::class.java)
+    private val service: UserRemoteService = RetrofitBuilder.getRetrofit().create(UserRemoteService::class.java)
 
     fun login(user: LoginRequest, context: Context)
     {

@@ -4,9 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.notesmvvm.data.model.note.UpdateNote
 import com.example.notesmvvm.data.remote.source.note.NoteRemoteDataSource
 import com.example.notesmvvm.databinding.ActivityUpdateNoteBinding
+import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
 
 class UpdateNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateNoteBinding
@@ -31,6 +33,8 @@ class UpdateNoteActivity : AppCompatActivity() {
 
     private fun clickUpdateBtn()
     {
+        val viewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
+
         binding.btnUpdate.setOnClickListener {
             if (binding.etUpdateTitle.text.isEmpty() or binding.etUpdateContent.text.isEmpty())
             {
@@ -38,7 +42,6 @@ class UpdateNoteActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val noteAPI = NoteRemoteDataSource()
             val userID = intent.getIntExtra("user_id", 0) //This comes from the adapter
             val noteID = intent.getIntExtra("update_note_id", 0) //This comes from the adapter
 
@@ -49,7 +52,7 @@ class UpdateNoteActivity : AppCompatActivity() {
                 binding.etUpdateContent.text.toString()
             )
 
-            noteAPI.updateNote(updatedData, this)
+            viewModel.updateNote(updatedData, this)
             val intent = Intent(this, NotesActivity::class.java)
             intent.putExtra("user_id", userID)
             startActivity(intent)

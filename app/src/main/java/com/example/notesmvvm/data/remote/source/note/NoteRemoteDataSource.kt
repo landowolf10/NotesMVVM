@@ -14,9 +14,9 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 class NoteRemoteDataSource {
-    private val service: NoteRemoteService = RetrofitBuilder.retrofit.create(NoteRemoteService::class.java)
+    //private val service: NoteRemoteService = RetrofitBuilder.getRetrofit().create(NoteRemoteService::class.java)
 
-    fun getUserNotes(userID: Int, noteAdapter: NoteAdapter)
+    /*fun getUserNotes(userID: Int, noteAdapter: NoteAdapter)
     {
         CoroutineScope(Dispatchers.IO).launch {
             val response = service.getUserNotes(userID)
@@ -27,12 +27,12 @@ class NoteRemoteDataSource {
             {
                 try
                 {
-                    if (response.isSuccessful)
+                    /*if (response.isSuccessful)
                     {
                         response.body()?.let {
                                 noteData -> noteAdapter.setData(noteData)
                         }
-                    }
+                    }*/
                 }
                 catch (error: HttpException)
                 {
@@ -40,11 +40,11 @@ class NoteRemoteDataSource {
                 }
             }
         }
-    }
+    }*/
 
-    fun createNote(noteData: CreateNote, userID: Int, noteAdapter: NoteAdapter, context: Context)
+    /*fun createNote(noteData: CreateNote, userID: Int, noteAdapter: NoteAdapter, context: Context)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        /*CoroutineScope(Dispatchers.IO).launch {
             val response = service.addNote(noteData)
 
             withContext(Dispatchers.Main)
@@ -53,7 +53,7 @@ class NoteRemoteDataSource {
                 {
                     if (response.isSuccessful)
                     {
-                        getUserNotes(userID, noteAdapter)
+                        //getUserNotes(userID, noteAdapter)
                         Toast.makeText(context, "New note created", Toast.LENGTH_LONG).show()
                     }
                 }
@@ -63,12 +63,12 @@ class NoteRemoteDataSource {
                     Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
                 }
             }
-        }
-    }
+        }*/
+    }*/
 
-    fun updateNote(updatedData: UpdateNote, context: Context)
+    /*fun updateNote(updatedData: UpdateNote, context: Context)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        /*CoroutineScope(Dispatchers.IO).launch {
             val response = service.updateNote(updatedData)
 
             withContext(Dispatchers.Main)
@@ -86,12 +86,12 @@ class NoteRemoteDataSource {
                     Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
                 }
             }
-        }
-    }
+        }*/
+    }*/
 
-    fun deleteNote(noteID: Int, context: Context)
+    /*fun deleteNote(noteID: Int, context: Context)
     {
-        CoroutineScope(Dispatchers.IO).launch {
+        /*CoroutineScope(Dispatchers.IO).launch {
             val response = service.deleteNote(noteID)
 
             withContext(Dispatchers.Main)
@@ -109,6 +109,6 @@ class NoteRemoteDataSource {
                     Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
                 }
             }
-        }
-    }
+        }*/
+    }*/
 }
