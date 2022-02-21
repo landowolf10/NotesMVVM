@@ -17,11 +17,17 @@ import retrofit2.HttpException
 
 class NotesActivityViewModel: ViewModel() {
     private var recyclerListLiveData: MutableLiveData<ArrayList<Note>> = MutableLiveData()
+    private var createNoteLiveData: MutableLiveData<CreateNote> = MutableLiveData()
     private val retroInstance: NoteRemoteService = RetrofitBuilder.getRetrofit().create(NoteRemoteService::class.java)
 
     fun getRecyclerListObserver(): MutableLiveData<ArrayList<Note>>
     {
         return  recyclerListLiveData
+    }
+
+    fun getCreateNoteObservable(): MutableLiveData<CreateNote>
+    {
+        return createNoteLiveData
     }
 
     fun getUserNotes(userID: Int)
@@ -32,27 +38,18 @@ class NotesActivityViewModel: ViewModel() {
         }
     }
 
-    fun addNote(note: CreateNote, context: Context)
+    fun addNote(note: CreateNote)
     {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retroInstance.addNote(note)
 
-            withContext(Dispatchers.Main)
+            if (response.isSuccessful)
             {
-                try
-                {
-                    if (response.isSuccessful)
-                    {
-                        getUserNotes(note.userID)
-                        Toast.makeText(context, "New note created", Toast.LENGTH_LONG).show()
-                    }
-                }
-                catch (error: HttpException)
-                {
-                    print(error)
-                    Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
-                }
+                createNoteLiveData.postValue(response.body())
+                //getUserNotes(note.userID)
             }
+            else
+                createNoteLiveData.postValue(null)
         }
     }
 

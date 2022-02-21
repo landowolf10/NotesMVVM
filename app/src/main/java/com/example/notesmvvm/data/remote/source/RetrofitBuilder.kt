@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
-    private const val BASE_URL = "http://192.168.0.11:3000/"
+    private const val BASE_URL = "http://192.168.0.15:3000/"
     private val interceptor = HttpLoggingInterceptor()
 
     fun getRetrofit(): Retrofit
