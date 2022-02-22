@@ -12,14 +12,32 @@ import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
 
 class UpdateNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateNoteBinding
+    private lateinit var viewModel: NotesActivityViewModel
+    private var userID: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpdateNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initViewModel()
         getNoteInfo()
         clickUpdateBtn()
+    }
+
+    private fun initViewModel()
+    {
+        viewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
+
+        viewModel.getUpdateNoteObservable().observe(this) {
+            if (it == null)
+            {
+                Toast.makeText(this, "Error in updating data", Toast.LENGTH_LONG).show()
+                return@observe
+            }
+
+            Toast.makeText(this, "Note updated successfully!", Toast.LENGTH_LONG).show()
+        }
     }
 
     /*Sets the note info on the text boxes when selecting one*/
@@ -33,29 +51,32 @@ class UpdateNoteActivity : AppCompatActivity() {
 
     private fun clickUpdateBtn()
     {
-        val viewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
-
         binding.btnUpdate.setOnClickListener {
-            if (binding.etUpdateTitle.text.isEmpty() or binding.etUpdateContent.text.isEmpty())
-            {
-                Toast.makeText(this, "Please fill the boxes", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-
-            val userID = intent.getIntExtra("user_id", 0) //This comes from the adapter
-            val noteID = intent.getIntExtra("update_note_id", 0) //This comes from the adapter
-
-            val updatedData = UpdateNote(
-                userID,
-                noteID,
-                binding.etUpdateTitle.text.toString(),
-                binding.etUpdateContent.text.toString()
-            )
-
-            viewModel.updateNote(updatedData, this)
-            val intent = Intent(this, NotesActivity::class.java)
-            intent.putExtra("user_id", userID)
-            startActivity(intent)
+            updateNote()
         }
+    }
+
+    private fun updateNote()
+    {
+        if (binding.etUpdateTitle.text.isEmpty() or binding.etUpdateContent.text.isEmpty())
+        {
+            Toast.makeText(this, "Please fill the boxes", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        userID = intent.getIntExtra("user_id", 0) //This comes from the adapter
+        val noteID = intent.getIntExtra("update_note_id", 0) //This comes from the adapter
+
+        val updatedData = UpdateNote(
+            userID,
+            noteID,
+            binding.etUpdateTitle.text.toString(),
+            binding.etUpdateContent.text.toString()
+        )
+
+        viewModel.updateNote(updatedData, this)
+        val intent = Intent(this, NotesActivity::class.java)
+        intent.putExtra("user_id", userID) //Check if this is necessary
+        startActivity(intent)
     }
 }

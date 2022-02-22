@@ -5,9 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.notesmvvm.data.model.note.CreateNote
-import com.example.notesmvvm.data.model.note.Note
-import com.example.notesmvvm.data.model.note.UpdateNote
+import com.example.notesmvvm.data.model.note.*
 import com.example.notesmvvm.data.remote.net.NoteRemoteService
 import com.example.notesmvvm.data.remote.source.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +15,9 @@ import retrofit2.HttpException
 
 class NotesActivityViewModel: ViewModel() {
     private var recyclerListLiveData: MutableLiveData<ArrayList<Note>> = MutableLiveData()
-    private var createNoteLiveData: MutableLiveData<CreateNote> = MutableLiveData()
+    private var createNoteLiveData: MutableLiveData<NoteResponse> = MutableLiveData()
+    private var updateNoteLiveData: MutableLiveData<UpdateNoteResponse> = MutableLiveData()
+    private var deleteNoteLiveData: MutableLiveData<DeleteNoteResponse> = MutableLiveData()
     private val retroInstance: NoteRemoteService = RetrofitBuilder.getRetrofit().create(NoteRemoteService::class.java)
 
     fun getRecyclerListObserver(): MutableLiveData<ArrayList<Note>>
@@ -25,9 +25,19 @@ class NotesActivityViewModel: ViewModel() {
         return  recyclerListLiveData
     }
 
-    fun getCreateNoteObservable(): MutableLiveData<CreateNote>
+    fun getCreateNoteObservable(): MutableLiveData<NoteResponse>
     {
         return createNoteLiveData
+    }
+
+    fun getUpdateNoteObservable(): MutableLiveData<UpdateNoteResponse>
+    {
+        return updateNoteLiveData
+    }
+
+    fun getDeleteNoteObservable(): MutableLiveData<DeleteNoteResponse>
+    {
+        return deleteNoteLiveData
     }
 
     fun getUserNotes(userID: Int)
@@ -43,13 +53,21 @@ class NotesActivityViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retroInstance.addNote(note)
 
-            if (response.isSuccessful)
+            try
             {
-                createNoteLiveData.postValue(response.body())
-                //getUserNotes(note.userID)
+                if (!response.isSuccessful)
+                {
+                    createNoteLiveData.postValue(null)
+                    return@launch
+                }
             }
-            else
+            catch (error: HttpException)
+            {
+                print(error)
                 createNoteLiveData.postValue(null)
+            }
+
+            createNoteLiveData.postValue(response.body())
         }
     }
 
@@ -58,22 +76,21 @@ class NotesActivityViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retroInstance.updateNote(updatedData)
 
-            withContext(Dispatchers.Main)
+            try
             {
-                try
+                if(!response.isSuccessful)
                 {
-                    if (response.isSuccessful)
-                    {
-                        getUserNotes(updatedData.userID)
-                        Toast.makeText(context, "Note updated successfully", Toast.LENGTH_LONG).show()
-                    }
-                }
-                catch (error: HttpException)
-                {
-                    print(error)
-                    Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
+                    updateNoteLiveData.postValue(null)
+                    return@launch
                 }
             }
+            catch (error: HttpException)
+            {
+                print(error)
+                updateNoteLiveData.postValue(null)
+            }
+
+            updateNoteLiveData.postValue(response.body())
         }
     }
 
@@ -82,21 +99,21 @@ class NotesActivityViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retroInstance.deleteNote(noteID)
 
-            withContext(Dispatchers.Main)
+            try
             {
-                try
+                if(!response.isSuccessful)
                 {
-                    if (response.isSuccessful)
-                    {
-                        Toast.makeText(context, "Note deleted successfully", Toast.LENGTH_LONG).show()
-                    }
-                }
-                catch (error: HttpException)
-                {
-                    print(error)
-                    Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
+                    deleteNoteLiveData.postValue(null)
+                    return@launch
                 }
             }
+            catch (error: HttpException)
+            {
+                print(error)
+                deleteNoteLiveData.postValue(null)
+            }
+
+            deleteNoteLiveData.postValue(response.body())
         }
     }
 }

@@ -27,12 +27,13 @@ class NotesActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recyclerAdapter = NoteAdapter(this, this)
+        recyclerAdapter = NoteAdapter(this, this, this)
 
         val userID = intent.getIntExtra("user_id", 0)
 
         initRecycler(recyclerAdapter)
         initViewModel(userID)
+        createNoteViewModel()
         clickAddBtn()
     }
 
@@ -46,31 +47,34 @@ class NotesActivity : AppCompatActivity() {
     private fun initViewModel(userID: Int)
     {
         viewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
-        viewModel.getRecyclerListObserver().observe(this) {
-            if (it != null)
-                recyclerAdapter.setData(it)
-            else
-                Toast.makeText(this, "Error in getting data", Toast.LENGTH_LONG).show()
-        }
-
         viewModel.getUserNotes(userID)
+
+        viewModel.getRecyclerListObserver().observe(this) {
+            if (it == null)
+            {
+                Toast.makeText(this, "Error in getting data", Toast.LENGTH_LONG).show()
+                return@observe
+            }
+
+            recyclerAdapter.setData(it)
+        }
     }
 
     private fun createNoteViewModel()
     {
         val noteViewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
 
-        viewModel.getCreateNoteObservable().observe(this)
+        noteViewModel.getCreateNoteObservable().observe(this)
         {
             if (it == null)
             {
-                //viewModel.getUserNotes(userID)
                 Toast.makeText(this, "Failed to create note", Toast.LENGTH_LONG).show()
+                return@observe
             }
-            else
-                Toast.makeText(this, "New note created", Toast.LENGTH_LONG).show()
-        }
 
+            noteViewModel.getUserNotes(it.data.userID)
+            Toast.makeText(this, "New note created", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun clickAddBtn()

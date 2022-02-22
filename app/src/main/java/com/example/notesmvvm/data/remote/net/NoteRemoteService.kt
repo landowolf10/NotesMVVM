@@ -11,11 +11,11 @@ interface NoteRemoteService {
     ): ArrayList<Note>
 
     @POST("note")
-    suspend fun addNote(@Body note: CreateNote): Response<CreateNote>
+    suspend fun addNote(@Body note: CreateNote): Response<NoteResponse>
 
     @PUT("note")
-    suspend fun updateNote(@Body note: UpdateNote): Response<UpdateNote>
+    suspend fun updateNote(@Body note: UpdateNote): Response<UpdateNoteResponse>
 
     @DELETE("note/{id}")
-    suspend fun deleteNote(@Path("id") id: Int): Response<NoteDeleted>
+    suspend fun deleteNote(@Path("id") id: Int): Response<DeleteNoteResponse>
 }

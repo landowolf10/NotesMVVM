@@ -1,6 +1,5 @@
 package com.example.notesmvvm.data.model.note
 
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 
 data class Note(
@@ -29,13 +28,6 @@ data class CreateNote(
     var content: String
 )
 
-data class NoteResponse(
-    @SerializedName("message")
-    var message: String,
-    @SerializedName("data")
-    var data: CreateNote
-)
-
 data class UpdateNote(
     @SerializedName("id_usuario")
     var userID: Int,
@@ -47,7 +39,30 @@ data class UpdateNote(
     var content: String
 )
 
-data class NoteDeleted(
+data class NoteResponse(
+    @SerializedName("message")
+    var message: String,
+    @SerializedName("data")
+    var data: CreateNote
+)
+
+data class UpdateNoteData(
+    @SerializedName("id")
+    var noteID: Int,
+    @SerializedName("titulo")
+    var title: String,
+    @SerializedName("contenido")
+    var content: String
+)
+
+data class UpdateNoteResponse(
+    @SerializedName("message")
+    var message: String,
+    @SerializedName("data")
+    var data: UpdateNoteData
+)
+
+data class DeleteNoteResponse(
     @SerializedName("message")
     var message: String
 )

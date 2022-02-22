@@ -5,6 +5,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +17,13 @@ import com.example.notesmvvm.databinding.CardViewBinding
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
 import com.example.notesmvvm.ui.views.UpdateNoteActivity
 
-class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner): RecyclerView.Adapter<NoteAdapter.ViewHolder>()
+class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCycle: LifecycleOwner): RecyclerView.Adapter<NoteAdapter.ViewHolder>()
 {
     private lateinit var binding: ActivityMainBinding
     var noteList = ArrayList<Note>()
     var noteContext = context
     var viewModelStoreOwner = viewModelOwner
+    var lifeCycleOwner = lifeCycle
     private lateinit var viewModel: NotesActivityViewModel
 
     fun setData(note: ArrayList<Note>)
@@ -75,13 +78,28 @@ class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner): Recycl
             }
 
             binding.btnDelete.setOnClickListener {
-                val noteID: Int = item.id
-                val itemPosition = adapterPosition
+                viewModel.getDeleteNoteObservable().observe(lifeCycleOwner) {
+                    if (it == null)
+                    {
+                        Toast.makeText(noteContext, "Error in deleting note", Toast.LENGTH_LONG).show()
+                        return@observe
+                    }
 
-                noteList.removeAt(itemPosition)
-                viewModel.deleteNote(noteID, noteContext)
-                notifyItemRemoved(itemPosition)
+                    Toast.makeText(noteContext, "Note deleted successfully!", Toast.LENGTH_LONG).show()
+                }
+
+                deleteNote(item)
             }
+        }
+
+        private fun deleteNote(item: Note)
+        {
+            val noteID: Int = item.id
+            val itemPosition = adapterPosition
+
+            noteList.removeAt(itemPosition)
+            viewModel.deleteNote(noteID, noteContext)
+            notifyItemRemoved(itemPosition)
         }
     }
 }
