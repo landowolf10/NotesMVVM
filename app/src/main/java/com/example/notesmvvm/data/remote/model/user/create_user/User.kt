@@ -1,8 +1,8 @@
-package com.example.notesmvvm.data.model.user.create_user
+package com.example.notesmvvm.data.remote.model.user.create_user
 
 import com.google.gson.annotations.SerializedName
 
-data class User(
+data class UserRequest(
     @SerializedName("nombre")
     var userName: String,
     @SerializedName("correo")

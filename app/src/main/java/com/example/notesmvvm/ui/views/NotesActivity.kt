@@ -3,13 +3,11 @@ package com.example.notesmvvm.ui.views
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesmvvm.R
-import com.example.notesmvvm.data.model.note.CreateNote
-import com.example.notesmvvm.data.model.note.Note
+import com.example.notesmvvm.data.remote.model.note.CreateNote
 import com.example.notesmvvm.databinding.ActivityMainBinding
 import com.example.notesmvvm.ui.adapter.NoteAdapter
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
@@ -29,6 +27,7 @@ class NotesActivity : AppCompatActivity() {
 
         recyclerAdapter = NoteAdapter(this, this, this)
 
+        //Gets the user id from LoginActivity when user logged in successfully
         val userID = intent.getIntExtra("user_id", 0)
 
         initRecycler(recyclerAdapter)
@@ -49,7 +48,7 @@ class NotesActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
         viewModel.getUserNotes(userID)
 
-        viewModel.getRecyclerListObserver().observe(this) {
+        viewModel.getNoteLiveData().observe(this) {
             if (it == null)
             {
                 Toast.makeText(this, "Error in getting data", Toast.LENGTH_LONG).show()
@@ -64,7 +63,7 @@ class NotesActivity : AppCompatActivity() {
     {
         val noteViewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
 
-        noteViewModel.getCreateNoteObservable().observe(this)
+        noteViewModel.getCreateNoteLiveData().observe(this)
         {
             if (it == null)
             {

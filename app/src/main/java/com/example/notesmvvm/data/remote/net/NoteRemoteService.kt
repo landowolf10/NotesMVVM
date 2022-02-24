@@ -1,6 +1,6 @@
 package com.example.notesmvvm.data.remote.net
 
-import com.example.notesmvvm.data.model.note.*
+import com.example.notesmvvm.data.remote.model.note.*
 import retrofit2.Response
 import retrofit2.http.*
 

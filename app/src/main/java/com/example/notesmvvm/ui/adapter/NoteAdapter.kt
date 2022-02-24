@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesmvvm.R
-import com.example.notesmvvm.data.model.note.Note
+import com.example.notesmvvm.data.remote.model.note.Note
 import com.example.notesmvvm.databinding.ActivityMainBinding
 import com.example.notesmvvm.databinding.CardViewBinding
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
@@ -78,7 +78,7 @@ class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCyc
             }
 
             binding.btnDelete.setOnClickListener {
-                viewModel.getDeleteNoteObservable().observe(lifeCycleOwner) {
+                viewModel.getDeleteNoteLiveData().observe(lifeCycleOwner) {
                     if (it == null)
                     {
                         Toast.makeText(noteContext, "Error in deleting note", Toast.LENGTH_LONG).show()
@@ -98,7 +98,7 @@ class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCyc
             val itemPosition = adapterPosition
 
             noteList.removeAt(itemPosition)
-            viewModel.deleteNote(noteID, noteContext)
+            viewModel.deleteNote(noteID)
             notifyItemRemoved(itemPosition)
         }
     }

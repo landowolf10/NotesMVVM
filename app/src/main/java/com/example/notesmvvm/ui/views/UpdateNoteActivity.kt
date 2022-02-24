@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.notesmvvm.data.model.note.UpdateNote
-import com.example.notesmvvm.data.remote.source.note.NoteRemoteDataSource
+import com.example.notesmvvm.data.remote.model.note.UpdateNote
 import com.example.notesmvvm.databinding.ActivityUpdateNoteBinding
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
 
@@ -29,7 +28,7 @@ class UpdateNoteActivity : AppCompatActivity() {
     {
         viewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
 
-        viewModel.getUpdateNoteObservable().observe(this) {
+        viewModel.getUpdateNoteLiveData().observe(this) {
             if (it == null)
             {
                 Toast.makeText(this, "Error in updating data", Toast.LENGTH_LONG).show()
@@ -74,7 +73,7 @@ class UpdateNoteActivity : AppCompatActivity() {
             binding.etUpdateContent.text.toString()
         )
 
-        viewModel.updateNote(updatedData, this)
+        viewModel.updateNote(updatedData)
         val intent = Intent(this, NotesActivity::class.java)
         intent.putExtra("user_id", userID) //Check if this is necessary
         startActivity(intent)
