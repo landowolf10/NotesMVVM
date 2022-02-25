@@ -1,4 +1,4 @@
-package com.example.notesmvvm.ui.views
+package com.example.notesmvvm.ui.views.note
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

@@ -15,7 +15,7 @@ import com.example.notesmvvm.data.remote.model.note.Note
 import com.example.notesmvvm.databinding.ActivityMainBinding
 import com.example.notesmvvm.databinding.CardViewBinding
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
-import com.example.notesmvvm.ui.views.UpdateNoteActivity
+import com.example.notesmvvm.ui.views.note.UpdateNoteActivity
 
 class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCycle: LifecycleOwner): RecyclerView.Adapter<NoteAdapter.ViewHolder>()
 {

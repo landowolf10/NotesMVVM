@@ -1,4 +1,4 @@
-package com.example.notesmvvm.ui.views
+package com.example.notesmvvm.ui.views.user
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.notesmvvm.data.remote.model.user.login.LoginRequest
 import com.example.notesmvvm.databinding.ActivityLoginBinding
 import com.example.notesmvvm.ui.viewmodel.UserActivityViewModel
+import com.example.notesmvvm.ui.views.note.NotesActivity
 
 class  LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
