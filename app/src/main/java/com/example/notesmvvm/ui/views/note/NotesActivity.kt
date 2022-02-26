@@ -14,9 +14,8 @@ import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
 
 class NotesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
     private lateinit var recyclerAdapter: NoteAdapter
-    lateinit var rvNotes: RecyclerView
+    private lateinit var rvNotes: RecyclerView
     private lateinit var note: CreateNote
     private lateinit var viewModel: NotesActivityViewModel
 
