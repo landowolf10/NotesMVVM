@@ -1,5 +1,7 @@
 package com.example.notesmvvm.data.remote.source
 
+import com.example.notesmvvm.data.remote.net.NoteRemoteService
+import com.example.notesmvvm.data.remote.source.note.NoteAPI
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,4 +26,10 @@ object RetrofitBuilder {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    private val noteService: NoteRemoteService by lazy {
+        getRetrofit().create(NoteRemoteService::class.java)
+    }
+
+    val noteAPI = NoteAPI(noteService)
 }

@@ -7,8 +7,6 @@ import com.example.notesmvvm.data.remote.source.RetrofitBuilder
 import retrofit2.HttpException
 
 class NoteRepository {
-    private val retroInstance: NoteRemoteService = RetrofitBuilder.getRetrofit().create(
-        NoteRemoteService::class.java)
     private var recyclerListLiveData: MutableLiveData<ArrayList<Note>> = MutableLiveData()
     private var createNoteLiveData: MutableLiveData<NoteResponse> = MutableLiveData()
     private var updateNoteLiveData: MutableLiveData<UpdateNoteResponse> = MutableLiveData()
@@ -36,7 +34,7 @@ class NoteRepository {
 
     suspend fun getUserNotes(userID: Int): ArrayList<Note>
     {
-        val response = retroInstance.getUserNotes(userID)
+        val response = RetrofitBuilder.noteAPI.getUserNotes(userID)
 
         try
         {
@@ -58,7 +56,7 @@ class NoteRepository {
 
     suspend fun addNote(note: CreateNote)
     {
-        val response = retroInstance.addNote(note)
+        val response = RetrofitBuilder.noteAPI.createNote(note)
 
         try
         {
@@ -74,12 +72,12 @@ class NoteRepository {
         }
 
         createNoteLiveData.postValue(response.body())
-        retroInstance.getUserNotes(note.userID)
+        RetrofitBuilder.noteAPI.getUserNotes(note.userID)
     }
 
     suspend fun updateNote(updatedData: UpdateNote)
     {
-        val response = retroInstance.updateNote(updatedData)
+        val response = RetrofitBuilder.noteAPI.updateNote(updatedData)
 
         try
         {
@@ -99,7 +97,7 @@ class NoteRepository {
 
     suspend fun deleteNote(noteID: Int)
     {
-        val response = retroInstance.deleteNote(noteID)
+        val response = RetrofitBuilder.noteAPI.deleteNote(noteID)
 
         try
         {
