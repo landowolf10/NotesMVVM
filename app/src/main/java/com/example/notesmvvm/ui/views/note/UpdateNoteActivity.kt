@@ -75,7 +75,7 @@ class UpdateNoteActivity : AppCompatActivity() {
 
         viewModel.updateNote(updatedData)
         val intent = Intent(this, NotesActivity::class.java)
-        intent.putExtra("user_id", userID) //Check if this is necessary
+        intent.putExtra("user_id", userID)
         startActivity(intent)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.notesmvvm.ui.views.note
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -16,8 +17,8 @@ class NotesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerAdapter: NoteAdapter
     private lateinit var rvNotes: RecyclerView
-    private lateinit var note: CreateNote
     private lateinit var viewModel: NotesActivityViewModel
+    private var userID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +28,11 @@ class NotesActivity : AppCompatActivity() {
         recyclerAdapter = NoteAdapter(this, this, this)
 
         //Gets the user id from LoginActivity when user logged in successfully
-        val userID = intent.getIntExtra("user_id", 0)
+        //The user id is also provided by CreateNoteActivity and UpdateActivity
+        userID = intent.getIntExtra("user_id", 0)
 
         initRecycler(recyclerAdapter)
         initViewModel(userID)
-        createNoteViewModel()
         clickAddBtn()
     }
 
@@ -58,49 +59,12 @@ class NotesActivity : AppCompatActivity() {
         }
     }
 
-    private fun createNoteViewModel()
-    {
-        val noteViewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
-
-        noteViewModel.getCreateNoteLiveData().observe(this)
-        {
-            if (it == null)
-            {
-                Toast.makeText(this, "Failed to create note", Toast.LENGTH_LONG).show()
-                return@observe
-            }
-
-            noteViewModel.getUserNotes(it.data.userID)
-            Toast.makeText(this, "New note created", Toast.LENGTH_LONG).show()
-        }
-    }
-
     private fun clickAddBtn()
     {
         binding.btnAdd.setOnClickListener {
-            createNote()
+            val intent = Intent(this, CreateNoteActivity::class.java)
+            intent.putExtra("user_id", userID)
+            startActivity(intent)
         }
-    }
-
-    private fun createNote()
-    {
-        val userID = intent.getIntExtra("user_id", 0)
-
-        if (binding.etTitle.text.isEmpty() or binding.etContent.text.isEmpty())
-        {
-            Toast.makeText(this, "Please fill the boxes", Toast.LENGTH_LONG).show()
-            return
-        }
-
-        note = CreateNote(
-            userID,
-            binding.etTitle.text.toString(),
-            binding.etContent.text.toString()
-        )
-
-        viewModel.addNote(note)
-
-        binding.etTitle.text.clear()
-        binding.etContent.text.clear()
     }
 }
