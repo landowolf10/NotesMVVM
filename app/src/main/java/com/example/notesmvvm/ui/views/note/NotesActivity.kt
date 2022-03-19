@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesmvvm.R
-import com.example.notesmvvm.data.remote.model.note.CreateNote
 import com.example.notesmvvm.databinding.ActivityMainBinding
 import com.example.notesmvvm.ui.adapter.NoteAdapter
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel

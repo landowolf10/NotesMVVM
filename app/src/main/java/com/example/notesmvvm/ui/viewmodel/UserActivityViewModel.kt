@@ -25,7 +25,9 @@ class UserActivityViewModel: ViewModel() {
     fun login(user: LoginRequest)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            userRepository.login(user)
+            val response = userRepository.login(user)
+
+            loginLiveData.postValue(response)
         }
     }
 }

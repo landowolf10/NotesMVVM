@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class NotesActivityViewModel: ViewModel() {
     private var noteRepository = NoteRepository()
     private var recyclerListLiveData: MutableLiveData<ArrayList<Note>> = MutableLiveData()
-    private var createNoteLiveData: MutableLiveData<NoteResponse> = MutableLiveData()
+    private var createNoteLiveData: MutableLiveData<CreateNoteResponse> = MutableLiveData()
     private var updateNoteLiveData: MutableLiveData<UpdateNoteResponse> = MutableLiveData()
     private var deleteNoteLiveData: MutableLiveData<DeleteNoteResponse> = MutableLiveData()
 
@@ -28,7 +28,7 @@ class NotesActivityViewModel: ViewModel() {
         return  recyclerListLiveData
     }
 
-    fun getCreateNoteLiveData(): MutableLiveData<NoteResponse>
+    fun getCreateNoteLiveData(): MutableLiveData<CreateNoteResponse>
     {
         return createNoteLiveData
     }
@@ -51,24 +51,27 @@ class NotesActivityViewModel: ViewModel() {
         }
     }
 
-    fun addNote(note: CreateNote)
+    fun addNote(note: CreateNoteRequest)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            noteRepository.addNote(note)
+            val response = noteRepository.addNote(note)
+            createNoteLiveData.postValue(response)
         }
     }
 
     fun updateNote(updatedData: UpdateNote)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            noteRepository.updateNote(updatedData)
+            val response = noteRepository.updateNote(updatedData)
+            updateNoteLiveData.postValue(response)
         }
     }
 
     fun deleteNote(noteID: Int)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            noteRepository.deleteNote(noteID)
+            val response = noteRepository.deleteNote(noteID)
+            deleteNoteLiveData.postValue(response)
         }
     }
 }

@@ -8,16 +8,16 @@ import retrofit2.HttpException
 
 class NoteRepository {
     private var recyclerListLiveData: MutableLiveData<ArrayList<Note>> = MutableLiveData()
-    private var createNoteLiveData: MutableLiveData<NoteResponse> = MutableLiveData()
+    private var createNoteLiveData: MutableLiveData<CreateNoteResponse> = MutableLiveData()
     private var updateNoteLiveData: MutableLiveData<UpdateNoteResponse> = MutableLiveData()
     private var deleteNoteLiveData: MutableLiveData<DeleteNoteResponse> = MutableLiveData()
 
     fun getNoteLiveData(): MutableLiveData<ArrayList<Note>>
     {
-        return  recyclerListLiveData
+        return recyclerListLiveData
     }
 
-    fun getCreateNoteLiveData(): MutableLiveData<NoteResponse>
+    fun getCreateNoteLiveData(): MutableLiveData<CreateNoteResponse>
     {
         return createNoteLiveData
     }
@@ -54,64 +54,36 @@ class NoteRepository {
         return response
     }
 
-    suspend fun addNote(note: CreateNote)
+    suspend fun addNote(note: CreateNoteRequest): CreateNoteResponse?
     {
         val response = RetrofitBuilder.noteAPI.createNote(note)
 
-        try
-        {
-            if (!response.isSuccessful)
-            {
-                createNoteLiveData.postValue(null)
-            }
-        }
-        catch (error: HttpException)
-        {
-            print(error)
-            createNoteLiveData.postValue(null)
-        }
+        if (response.failed)
+            return null
 
-        createNoteLiveData.postValue(response.body())
-        RetrofitBuilder.noteAPI.getUserNotes(note.userID)
+        if (!response.isSuccessful)
+            return null
+
+        return response.body
     }
 
-    suspend fun updateNote(updatedData: UpdateNote)
+    suspend fun updateNote(updatedData: UpdateNote): UpdateNoteResponse?
     {
         val response = RetrofitBuilder.noteAPI.updateNote(updatedData)
 
-        try
-        {
-            if (!response.isSuccessful)
-            {
-                updateNoteLiveData.postValue(null)
-            }
-        }
-        catch (error: HttpException)
-        {
-            print(error)
-            updateNoteLiveData.postValue(null)
-        }
+        if (!response.isSuccessful || response.failed)
+            return null
 
-        updateNoteLiveData.postValue(response.body())
+        return response.body
     }
 
-    suspend fun deleteNote(noteID: Int)
+    suspend fun deleteNote(noteID: Int): DeleteNoteResponse?
     {
         val response = RetrofitBuilder.noteAPI.deleteNote(noteID)
 
-        try
-        {
-            if(!response.isSuccessful)
-            {
-                deleteNoteLiveData.postValue(null)
-            }
-        }
-        catch (error: HttpException)
-        {
-            print(error)
-            deleteNoteLiveData.postValue(null)
-        }
+        if(!response.isSuccessful || response.failed)
+            return null
 
-        deleteNoteLiveData.postValue(response.body())
+        return response.body
     }
 }

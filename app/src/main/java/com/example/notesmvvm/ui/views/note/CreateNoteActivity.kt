@@ -5,15 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.notesmvvm.R
-import com.example.notesmvvm.data.remote.model.note.CreateNote
+import com.example.notesmvvm.data.remote.model.note.CreateNoteRequest
 import com.example.notesmvvm.databinding.ActivityCreateNoteBinding
 import com.example.notesmvvm.databinding.ActivityUpdateNoteBinding
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
 
 class CreateNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateNoteBinding
-    private lateinit var note: CreateNote
+    private lateinit var note: CreateNoteRequest
     private lateinit var viewModel: NotesActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +58,7 @@ class CreateNoteActivity : AppCompatActivity() {
             return
         }
 
-        note = CreateNote(
+        note = CreateNoteRequest(
             userID,
             binding.etTitle.text.toString(),
             binding.etContent.text.toString()

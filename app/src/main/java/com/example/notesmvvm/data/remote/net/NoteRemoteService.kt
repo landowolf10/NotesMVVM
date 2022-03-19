@@ -11,7 +11,7 @@ interface NoteRemoteService {
     ): ArrayList<Note>
 
     @POST("note")
-    suspend fun createNote(@Body note: CreateNote): Response<NoteResponse>
+    suspend fun createNote(@Body note: CreateNoteRequest): Response<CreateNoteResponse>
 
     @PUT("note")
     suspend fun updateNote(@Body note: UpdateNote): Response<UpdateNoteResponse>

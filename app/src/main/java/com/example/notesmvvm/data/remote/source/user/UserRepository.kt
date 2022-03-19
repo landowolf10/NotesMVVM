@@ -9,8 +9,6 @@ import retrofit2.HttpException
 
 class UserRepository
 {
-    private val retroInstance: UserRemoteService = RetrofitBuilder.getRetrofit().create(
-        UserRemoteService::class.java)
     private var loginLiveData: MutableLiveData<LoginResponse> = MutableLiveData()
 
     fun getLoginLiveData(): MutableLiveData<LoginResponse>
@@ -18,23 +16,18 @@ class UserRepository
         return loginLiveData
     }
 
-    suspend fun login(user: LoginRequest)
+    suspend fun login(user: LoginRequest): LoginResponse?
     {
-        val response = retroInstance.login(user)
+        val request = RetrofitBuilder.userAPI.login(user)
 
-        try
+        if(request.failed)
+            return null
+
+        if (!request.isSuccessful)
         {
-            if (!response.isSuccessful)
-            {
-                loginLiveData.postValue(null)
-            }
-        }
-        catch (error: HttpException)
-        {
-            print(error)
-            loginLiveData.postValue(null)
+            return null
         }
 
-        loginLiveData.postValue(response.body())
+        return request.body
     }
 }

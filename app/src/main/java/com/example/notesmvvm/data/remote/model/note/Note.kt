@@ -19,7 +19,7 @@ data class Note(
     var content: String
 )
 
-data class CreateNote(
+data class CreateNoteRequest(
     @SerializedName("id_usuario")
     var userID: Int,
     @SerializedName("titulo")
@@ -39,11 +39,11 @@ data class UpdateNote(
     var content: String
 )
 
-data class NoteResponse(
+data class CreateNoteResponse(
     @SerializedName("message")
     var message: String,
     @SerializedName("data")
-    var data: CreateNote
+    var data: CreateNoteRequest
 )
 
 data class UpdateNoteData(
