@@ -5,21 +5,28 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesmvvm.R
-import com.example.notesmvvm.data.model.note.Note
-import com.example.notesmvvm.data.remote.source.note.NoteRemoteDataSource
+import com.example.notesmvvm.data.remote.model.note.Note
 import com.example.notesmvvm.databinding.ActivityMainBinding
 import com.example.notesmvvm.databinding.CardViewBinding
-import com.example.notesmvvm.ui.views.UpdateNoteActivity
+import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
+import com.example.notesmvvm.ui.views.note.UpdateNoteActivity
 
-class NoteAdapter(note: MutableList<Note>, context: Context): RecyclerView.Adapter<NoteAdapter.ViewHolder>()
+class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCycle: LifecycleOwner): RecyclerView.Adapter<NoteAdapter.ViewHolder>()
 {
     private lateinit var binding: ActivityMainBinding
-    var noteList = note
+    var noteList = ArrayList<Note>()
     var noteContext = context
+    var viewModelStoreOwner = viewModelOwner
+    var lifeCycleOwner = lifeCycle
+    private lateinit var viewModel: NotesActivityViewModel
 
-    fun setData(note: MutableList<Note>)
+    fun setData(note: ArrayList<Note>)
     {
         this.noteList = note
         notifyDataSetChanged()
@@ -56,6 +63,8 @@ class NoteAdapter(note: MutableList<Note>, context: Context): RecyclerView.Adapt
 
         fun render(item: Note)
         {
+            viewModel = ViewModelProvider(viewModelStoreOwner)[NotesActivityViewModel::class.java]
+
             binding.txtTitle.text = item.title
             binding.txtContent.text = item.content
 
@@ -69,14 +78,28 @@ class NoteAdapter(note: MutableList<Note>, context: Context): RecyclerView.Adapt
             }
 
             binding.btnDelete.setOnClickListener {
-                val noteAPI = NoteRemoteDataSource()
-                val noteID: Int = item.id
-                val itemPosition = adapterPosition
+                viewModel.getDeleteNoteLiveData().observe(lifeCycleOwner) {
+                    if (it == null)
+                    {
+                        Toast.makeText(noteContext, "Error in deleting note", Toast.LENGTH_LONG).show()
+                        return@observe
+                    }
 
-                noteList.removeAt(itemPosition)
-                noteAPI.deleteNote(noteID, noteContext)
-                notifyItemRemoved(itemPosition)
+                    Toast.makeText(noteContext, "Note deleted successfully!", Toast.LENGTH_LONG).show()
+                }
+
+                deleteNote(item)
             }
+        }
+
+        private fun deleteNote(item: Note)
+        {
+            val noteID: Int = item.id
+            val itemPosition = adapterPosition
+
+            noteList.removeAt(itemPosition)
+            viewModel.deleteNote(noteID)
+            notifyItemRemoved(itemPosition)
         }
     }
 }

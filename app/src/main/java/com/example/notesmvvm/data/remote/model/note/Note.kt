@@ -1,4 +1,4 @@
-package com.example.notesmvvm.data.model.note
+package com.example.notesmvvm.data.remote.model.note
 
 import com.google.gson.annotations.SerializedName
 
@@ -19,7 +19,7 @@ data class Note(
     var content: String
 )
 
-data class CreateNote(
+data class CreateNoteRequest(
     @SerializedName("id_usuario")
     var userID: Int,
     @SerializedName("titulo")
@@ -39,7 +39,30 @@ data class UpdateNote(
     var content: String
 )
 
-data class NoteDeleted(
+data class CreateNoteResponse(
+    @SerializedName("message")
+    var message: String,
+    @SerializedName("data")
+    var data: CreateNoteRequest
+)
+
+data class UpdateNoteData(
+    @SerializedName("id")
+    var noteID: Int,
+    @SerializedName("titulo")
+    var title: String,
+    @SerializedName("contenido")
+    var content: String
+)
+
+data class UpdateNoteResponse(
+    @SerializedName("message")
+    var message: String,
+    @SerializedName("data")
+    var data: UpdateNoteData
+)
+
+data class DeleteNoteResponse(
     @SerializedName("message")
     var message: String
 )
