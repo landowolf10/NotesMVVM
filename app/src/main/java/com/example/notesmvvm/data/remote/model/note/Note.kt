@@ -2,7 +2,7 @@ package com.example.notesmvvm.data.remote.model.note
 
 import com.google.gson.annotations.SerializedName
 
-data class Note(
+data class NoteResponse(
     @SerializedName("id")
     var id: Int,
     @SerializedName("id_usuario")

@@ -9,7 +9,9 @@ import com.example.notesmvvm.data.remote.model.user.login.LoginRequest
 import com.example.notesmvvm.databinding.ActivityLoginBinding
 import com.example.notesmvvm.ui.viewmodel.UserActivityViewModel
 import com.example.notesmvvm.ui.views.note.NotesActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class  LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: UserActivityViewModel

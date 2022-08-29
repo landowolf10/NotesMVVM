@@ -2,20 +2,26 @@ package com.example.notesmvvm.data.remote.source
 
 import com.example.notesmvvm.data.remote.net.NoteRemoteService
 import com.example.notesmvvm.data.remote.net.UserRemoteService
-import com.example.notesmvvm.data.remote.source.note.NoteAPI
-import com.example.notesmvvm.data.remote.source.user.UserAPI
-import com.example.notesmvvm.ui.viewmodel.UserActivityViewModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 object RetrofitBuilder {
-    private const val BASE_URL = "http://192.168.0.23:3000/"
+    private const val BASE_URL = "http://192.168.0.24:3000/"
     private val interceptor = HttpLoggingInterceptor()
 
-    fun getRetrofit(): Retrofit
+    @Singleton
+    @Provides
+    fun provideRetrofit(): Retrofit
     {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder()
@@ -30,7 +36,21 @@ object RetrofitBuilder {
             .build()
     }
 
-    private val noteService: NoteRemoteService by lazy {
+    @Singleton
+    @Provides
+    fun provideUserApiClient(retrofit: Retrofit): UserRemoteService
+    {
+        return retrofit.create(UserRemoteService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNoteApiClient(retrofit: Retrofit): NoteRemoteService
+    {
+        return retrofit.create(NoteRemoteService::class.java)
+    }
+
+    /*private val noteService: NoteRemoteService by lazy {
         getRetrofit().create(NoteRemoteService::class.java)
     }
 
@@ -39,5 +59,5 @@ object RetrofitBuilder {
     }
 
     val noteAPI = NoteAPI(noteService)
-    val userAPI = UserAPI(userService)
+    val userAPI = UserAPI(userService)*/
 }

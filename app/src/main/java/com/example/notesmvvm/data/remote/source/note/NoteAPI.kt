@@ -3,33 +3,33 @@ package com.example.notesmvvm.data.remote.source.note
 import com.example.notesmvvm.SimpleResponse
 import com.example.notesmvvm.data.remote.model.note.*
 import com.example.notesmvvm.data.remote.net.NoteRemoteService
-import retrofit2.Response
+import javax.inject.Inject
 
-class NoteAPI (private val noteService: NoteRemoteService)
+class NoteAPI @Inject constructor(private val noteRemoteService: NoteRemoteService)
 {
-    suspend fun getUserNotes(userID: Int): ArrayList<Note>
+    suspend fun getUserNotes(userID: Int): ArrayList<NoteResponse>
     {
-        return noteService.getUserNotes(userID)
+        return noteRemoteService.getUserNotes(userID)
     }
 
     suspend fun createNote(note: CreateNoteRequest): SimpleResponse<CreateNoteResponse>
     {
         return SimpleResponse.safeAPICall {
-            noteService.createNote(note)
+            noteRemoteService.createNote(note)
         }
     }
 
     suspend fun updateNote(updatedData: UpdateNote): SimpleResponse<UpdateNoteResponse>
     {
         return SimpleResponse.safeAPICall {
-            noteService.updateNote(updatedData)
+            noteRemoteService.updateNote(updatedData)
         }
     }
 
     suspend fun deleteNote(noteID: Int): SimpleResponse<DeleteNoteResponse>
     {
         return SimpleResponse.safeAPICall {
-            noteService.deleteNote(noteID)
+            noteRemoteService.deleteNote(noteID)
         }
     }
 }

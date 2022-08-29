@@ -3,12 +3,11 @@ package com.example.notesmvvm.data.remote.net
 import com.example.notesmvvm.data.remote.model.note.*
 import retrofit2.Response
 import retrofit2.http.*
+import javax.inject.Inject
 
 interface NoteRemoteService {
     @GET("note/{id}")
-    suspend fun getUserNotes(
-        @Path("id") userID: Int
-    ): ArrayList<Note>
+    suspend fun getUserNotes(@Path("id") userID: Int): ArrayList<NoteResponse>
 
     @POST("note")
     suspend fun createNote(@Body note: CreateNoteRequest): Response<CreateNoteResponse>

@@ -9,7 +9,9 @@ import com.example.notesmvvm.data.remote.model.note.CreateNoteRequest
 import com.example.notesmvvm.databinding.ActivityCreateNoteBinding
 import com.example.notesmvvm.databinding.ActivityUpdateNoteBinding
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreateNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateNoteBinding
     private lateinit var note: CreateNoteRequest

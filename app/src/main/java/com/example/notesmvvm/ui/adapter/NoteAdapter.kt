@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesmvvm.R
-import com.example.notesmvvm.data.remote.model.note.Note
+import com.example.notesmvvm.data.remote.model.note.NoteResponse
 import com.example.notesmvvm.databinding.ActivityMainBinding
 import com.example.notesmvvm.databinding.CardViewBinding
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
@@ -20,13 +20,13 @@ import com.example.notesmvvm.ui.views.note.UpdateNoteActivity
 class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCycle: LifecycleOwner): RecyclerView.Adapter<NoteAdapter.ViewHolder>()
 {
     private lateinit var binding: ActivityMainBinding
-    var noteList = ArrayList<Note>()
+    var noteList = ArrayList<NoteResponse>()
     var noteContext = context
     var viewModelStoreOwner = viewModelOwner
     var lifeCycleOwner = lifeCycle
     private lateinit var viewModel: NotesActivityViewModel
 
-    fun setData(note: ArrayList<Note>)
+    fun setData(note: ArrayList<NoteResponse>)
     {
         this.noteList = note
         notifyDataSetChanged()
@@ -61,7 +61,7 @@ class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCyc
     {
         private val binding = CardViewBinding.bind(view)
 
-        fun render(item: Note)
+        fun render(item: NoteResponse)
         {
             viewModel = ViewModelProvider(viewModelStoreOwner)[NotesActivityViewModel::class.java]
 
@@ -92,7 +92,7 @@ class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCyc
             }
         }
 
-        private fun deleteNote(item: Note)
+        private fun deleteNote(item: NoteResponse)
         {
             val noteID: Int = item.id
             val itemPosition = adapterPosition

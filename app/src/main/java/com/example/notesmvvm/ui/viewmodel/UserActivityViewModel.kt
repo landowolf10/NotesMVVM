@@ -6,12 +6,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.notesmvvm.data.remote.model.user.login.LoginRequest
 import com.example.notesmvvm.data.remote.model.user.login.LoginResponse
 import com.example.notesmvvm.data.remote.source.user.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserActivityViewModel: ViewModel() {
+@HiltViewModel
+class UserActivityViewModel @Inject constructor(
+    private val userRepository: UserRepository
+): ViewModel() {
     private var loginLiveData: MutableLiveData<LoginResponse> = MutableLiveData()
-    private var userRepository: UserRepository = UserRepository()
 
     init {
         loginLiveData = userRepository.getLoginLiveData()

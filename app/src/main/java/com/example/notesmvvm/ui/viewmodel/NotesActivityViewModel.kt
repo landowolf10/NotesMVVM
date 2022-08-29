@@ -5,12 +5,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notesmvvm.data.remote.model.note.*
 import com.example.notesmvvm.data.remote.source.note.NoteRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NotesActivityViewModel: ViewModel() {
-    private var noteRepository = NoteRepository()
-    private var recyclerListLiveData: MutableLiveData<ArrayList<Note>> = MutableLiveData()
+@HiltViewModel
+class NotesActivityViewModel @Inject constructor(
+    private val noteRepository: NoteRepository
+) : ViewModel() {
+
+    private var recyclerListLiveData: MutableLiveData<ArrayList<NoteResponse>> = MutableLiveData()
     private var createNoteLiveData: MutableLiveData<CreateNoteResponse> = MutableLiveData()
     private var updateNoteLiveData: MutableLiveData<UpdateNoteResponse> = MutableLiveData()
     private var deleteNoteLiveData: MutableLiveData<DeleteNoteResponse> = MutableLiveData()
@@ -23,7 +28,7 @@ class NotesActivityViewModel: ViewModel() {
     }
 
     /*Observable methods*/
-    fun getNoteLiveData(): MutableLiveData<ArrayList<Note>>
+    fun getNoteLiveData(): MutableLiveData<ArrayList<NoteResponse>>
     {
         return  recyclerListLiveData
     }

@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.notesmvvm.data.remote.model.note.UpdateNote
 import com.example.notesmvvm.databinding.ActivityUpdateNoteBinding
 import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UpdateNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateNoteBinding
     private lateinit var viewModel: NotesActivityViewModel
