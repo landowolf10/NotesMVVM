@@ -1,9 +1,8 @@
 package com.example.notesmvvm.data.remote.net
 
-import com.example.notesmvvm.data.remote.model.note.*
+import com.example.notesmvvm.data.model.note.*
 import retrofit2.Response
 import retrofit2.http.*
-import javax.inject.Inject
 
 interface NoteRemoteService {
     @GET("note/{id}")

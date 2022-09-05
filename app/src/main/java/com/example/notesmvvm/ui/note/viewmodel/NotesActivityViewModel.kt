@@ -1,9 +1,9 @@
-package com.example.notesmvvm.ui.viewmodel
+package com.example.notesmvvm.ui.note.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.notesmvvm.data.remote.model.note.*
+import com.example.notesmvvm.data.model.note.*
 import com.example.notesmvvm.data.remote.source.note.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

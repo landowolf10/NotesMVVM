@@ -1,11 +1,13 @@
 package com.example.notesmvvm.data.remote.source.user
 
 import androidx.lifecycle.MutableLiveData
-import com.example.notesmvvm.data.remote.model.user.login.LoginRequest
-import com.example.notesmvvm.data.remote.model.user.login.LoginResponse
+import com.example.notesmvvm.data.model.user.login.LoginRequest
+import com.example.notesmvvm.data.model.user.login.LoginResponse
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(private val userAPI: UserAPI)
+class UserRepository @Inject constructor(
+    private val userAPI: UserRemoteDataSource
+)
 {
     private var loginLiveData: MutableLiveData<LoginResponse> = MutableLiveData()
 
@@ -18,14 +20,6 @@ class UserRepository @Inject constructor(private val userAPI: UserAPI)
     {
         val request = userAPI.login(user)
 
-        if(request.failed)
-            return null
-
-        if (!request.isSuccessful)
-        {
-            return null
-        }
-
-        return request.body
+        return request.data
     }
 }

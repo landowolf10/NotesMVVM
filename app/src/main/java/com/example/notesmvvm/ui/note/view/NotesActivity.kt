@@ -1,4 +1,4 @@
-package com.example.notesmvvm.ui.views.note
+package com.example.notesmvvm.ui.note.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesmvvm.R
 import com.example.notesmvvm.databinding.ActivityMainBinding
-import com.example.notesmvvm.ui.adapter.NoteAdapter
-import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
+import com.example.notesmvvm.ui.note.adapter.NoteAdapter
+import com.example.notesmvvm.ui.note.viewmodel.NotesActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

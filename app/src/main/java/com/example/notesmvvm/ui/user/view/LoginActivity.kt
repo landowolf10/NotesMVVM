@@ -1,14 +1,14 @@
-package com.example.notesmvvm.ui.views.user
+package com.example.notesmvvm.ui.user.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.notesmvvm.data.remote.model.user.login.LoginRequest
+import com.example.notesmvvm.data.model.user.login.LoginRequest
 import com.example.notesmvvm.databinding.ActivityLoginBinding
-import com.example.notesmvvm.ui.viewmodel.UserActivityViewModel
-import com.example.notesmvvm.ui.views.note.NotesActivity
+import com.example.notesmvvm.ui.user.viewmodel.UserActivityViewModel
+import com.example.notesmvvm.ui.note.view.NotesActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

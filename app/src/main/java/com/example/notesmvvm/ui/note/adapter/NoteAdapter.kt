@@ -1,4 +1,4 @@
-package com.example.notesmvvm.ui.adapter
+package com.example.notesmvvm.ui.note.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesmvvm.R
-import com.example.notesmvvm.data.remote.model.note.NoteResponse
+import com.example.notesmvvm.data.model.note.NoteResponse
 import com.example.notesmvvm.databinding.ActivityMainBinding
 import com.example.notesmvvm.databinding.CardViewBinding
-import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
-import com.example.notesmvvm.ui.views.note.UpdateNoteActivity
+import com.example.notesmvvm.ui.note.viewmodel.NotesActivityViewModel
+import com.example.notesmvvm.ui.note.view.UpdateNoteActivity
 
 class NoteAdapter(context: Context, viewModelOwner: ViewModelStoreOwner, lifeCycle: LifecycleOwner): RecyclerView.Adapter<NoteAdapter.ViewHolder>()
 {

@@ -1,9 +1,13 @@
-package com.example.notesmvvm.data.remote.model.note
+package com.example.notesmvvm.data.model.note
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "notes")
 data class NoteResponse(
     @SerializedName("id")
+    @PrimaryKey
     var id: Int,
     @SerializedName("id_usuario")
     var userID: Int,

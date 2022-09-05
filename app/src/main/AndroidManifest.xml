@@ -13,10 +13,10 @@
         android:theme="@style/Theme.NotesMVVM"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.views.note.CreateNoteActivity"
+            android:name=".ui.note.view.CreateNoteActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.views.user.LoginActivity"
+            android:name=".ui.user.view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,10 +25,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.views.note.UpdateNoteActivity"
+            android:name=".ui.note.view.UpdateNoteActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.views.note.NotesActivity"
+            android:name=".ui.note.view.NotesActivity"
             android:exported="true" />
     </application>
 

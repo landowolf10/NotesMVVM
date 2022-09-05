@@ -1,7 +1,7 @@
 package com.example.notesmvvm.data.remote.net
 
-import com.example.notesmvvm.data.remote.model.user.login.LoginRequest
-import com.example.notesmvvm.data.remote.model.user.login.LoginResponse
+import com.example.notesmvvm.data.model.user.login.LoginRequest
+import com.example.notesmvvm.data.model.user.login.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

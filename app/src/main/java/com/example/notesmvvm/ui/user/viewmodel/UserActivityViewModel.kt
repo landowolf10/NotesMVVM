@@ -1,10 +1,10 @@
-package com.example.notesmvvm.ui.viewmodel
+package com.example.notesmvvm.ui.user.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.notesmvvm.data.remote.model.user.login.LoginRequest
-import com.example.notesmvvm.data.remote.model.user.login.LoginResponse
+import com.example.notesmvvm.data.model.user.login.LoginRequest
+import com.example.notesmvvm.data.model.user.login.LoginResponse
 import com.example.notesmvvm.data.remote.source.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

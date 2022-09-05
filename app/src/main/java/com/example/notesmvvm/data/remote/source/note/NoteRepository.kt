@@ -1,12 +1,12 @@
 package com.example.notesmvvm.data.remote.source.note
 
 import androidx.lifecycle.MutableLiveData
-import com.example.notesmvvm.data.remote.model.note.*
+import com.example.notesmvvm.data.model.note.*
 import retrofit2.HttpException
 import javax.inject.Inject
 
 class NoteRepository @Inject constructor(
-    private val noteAPI: NoteAPI
+    private val noteRemoteDataSource: NoteRemoteDataSource
 ) {
     private var recyclerListLiveData: MutableLiveData<ArrayList<NoteResponse>> = MutableLiveData()
     private var createNoteLiveData: MutableLiveData<CreateNoteResponse> = MutableLiveData()
@@ -35,7 +35,7 @@ class NoteRepository @Inject constructor(
 
     suspend fun getUserNotes(userID: Int): ArrayList<NoteResponse>
     {
-        val response = noteAPI.getUserNotes(userID)
+        val response = noteRemoteDataSource.getUserNotes(userID)
 
         try
         {
@@ -57,7 +57,7 @@ class NoteRepository @Inject constructor(
 
     suspend fun getUserNotesLocal(userID: Int): ArrayList<NoteResponse>
     {
-        val response = noteAPI.getUserNotes(userID)
+        val response = noteRemoteDataSource.getUserNotes(userID)
 
         try
         {
@@ -79,34 +79,19 @@ class NoteRepository @Inject constructor(
 
     suspend fun addNote(note: CreateNoteRequest): CreateNoteResponse?
     {
-        val response = noteAPI.createNote(note)
-
-        if (response.failed)
-            return null
-
-        if (!response.isSuccessful)
-            return null
-
-        return response.body
+        val response = noteRemoteDataSource.createNote(note)
+        return response.data
     }
 
     suspend fun updateNote(updatedData: UpdateNote): UpdateNoteResponse?
     {
-        val response = noteAPI.updateNote(updatedData)
-
-        if (!response.isSuccessful || response.failed)
-            return null
-
-        return response.body
+        val response = noteRemoteDataSource.updateNote(updatedData)
+        return response.data
     }
 
     suspend fun deleteNote(noteID: Int): DeleteNoteResponse?
     {
-        val response = noteAPI.deleteNote(noteID)
-
-        if(!response.isSuccessful || response.failed)
-            return null
-
-        return response.body
+        val response = noteRemoteDataSource.deleteNote(noteID)
+        return response.data
     }
 }

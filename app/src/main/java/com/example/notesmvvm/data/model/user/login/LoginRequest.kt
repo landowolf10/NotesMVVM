@@ -1,4 +1,4 @@
-package com.example.notesmvvm.data.remote.model.user.login
+package com.example.notesmvvm.data.model.user.login
 
 import com.google.gson.annotations.SerializedName
 

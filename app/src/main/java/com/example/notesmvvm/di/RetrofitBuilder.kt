@@ -1,4 +1,4 @@
-package com.example.notesmvvm.data.remote.source
+package com.example.notesmvvm.di
 
 import com.example.notesmvvm.data.remote.net.NoteRemoteService
 import com.example.notesmvvm.data.remote.net.UserRemoteService
@@ -38,26 +38,15 @@ object RetrofitBuilder {
 
     @Singleton
     @Provides
-    fun provideUserApiClient(retrofit: Retrofit): UserRemoteService
+    fun provideUserService(retrofit: Retrofit): UserRemoteService
     {
         return retrofit.create(UserRemoteService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideNoteApiClient(retrofit: Retrofit): NoteRemoteService
+    fun provideNoteService(retrofit: Retrofit): NoteRemoteService
     {
         return retrofit.create(NoteRemoteService::class.java)
     }
-
-    /*private val noteService: NoteRemoteService by lazy {
-        getRetrofit().create(NoteRemoteService::class.java)
-    }
-
-    private val userService: UserRemoteService by lazy {
-        getRetrofit().create(UserRemoteService::class.java)
-    }
-
-    val noteAPI = NoteAPI(noteService)
-    val userAPI = UserAPI(userService)*/
 }

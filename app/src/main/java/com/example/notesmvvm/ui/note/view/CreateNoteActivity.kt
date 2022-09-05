@@ -1,14 +1,13 @@
-package com.example.notesmvvm.ui.views.note
+package com.example.notesmvvm.ui.note.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.notesmvvm.data.remote.model.note.CreateNoteRequest
+import com.example.notesmvvm.data.model.note.CreateNoteRequest
 import com.example.notesmvvm.databinding.ActivityCreateNoteBinding
-import com.example.notesmvvm.databinding.ActivityUpdateNoteBinding
-import com.example.notesmvvm.ui.viewmodel.NotesActivityViewModel
+import com.example.notesmvvm.ui.note.viewmodel.NotesActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
