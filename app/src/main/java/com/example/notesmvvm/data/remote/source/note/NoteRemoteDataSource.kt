@@ -14,6 +14,11 @@ class NoteRemoteDataSource @Inject constructor(
         return noteRemoteService.getUserNotes(userID)
     }
 
+    suspend fun getAllNotes(): ArrayList<NoteResponse>
+    {
+        return noteRemoteService.getAllNotes()
+    }
+
     suspend fun createNote(note: CreateNoteRequest) = BaseDataSource.getResult {
         noteRemoteService.createNote(note)
     }

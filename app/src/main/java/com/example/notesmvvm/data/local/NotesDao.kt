@@ -18,7 +18,7 @@ interface NotesDao
     fun getUserNotes(userID: Int): LiveData<NoteResponse>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(characters: List<CreateNoteRequest>)
+    suspend fun insertAllNotes(notes: ArrayList<NoteResponse>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(character: CreateNoteRequest)

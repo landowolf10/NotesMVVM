@@ -1,12 +1,16 @@
 package com.example.notesmvvm.data.remote.source.note
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.example.notesmvvm.data.local.NotesDao
 import com.example.notesmvvm.data.model.note.*
+import com.example.notesmvvm.utils.CheckInternetConnection
 import retrofit2.HttpException
 import javax.inject.Inject
 
 class NoteRepository @Inject constructor(
-    private val noteRemoteDataSource: NoteRemoteDataSource
+    private val noteRemoteDataSource: NoteRemoteDataSource,
+    private val localNoteDataSource: NotesDao
 ) {
     private var recyclerListLiveData: MutableLiveData<ArrayList<NoteResponse>> = MutableLiveData()
     private var createNoteLiveData: MutableLiveData<CreateNoteResponse> = MutableLiveData()
@@ -33,7 +37,42 @@ class NoteRepository @Inject constructor(
         return deleteNoteLiveData
     }
 
-    suspend fun getUserNotes(userID: Int): ArrayList<NoteResponse>
+    suspend fun getUserNotes(userID: Int, context: Context): ArrayList<NoteResponse>?
+    {
+        var response: ArrayList<NoteResponse>? = null
+        var allNotesResponse: ArrayList<NoteResponse>? = null
+
+        if(CheckInternetConnection.checkForInternet(context))
+        {
+            allNotesResponse = noteRemoteDataSource.getAllNotes()
+            response = noteRemoteDataSource.getUserNotes(userID)
+
+            allNotesResponse.let {
+                localNoteDataSource.insertAllNotes(it)
+            }
+        }
+
+        try
+        {
+            if (response?.isEmpty() == true)
+            {
+                recyclerListLiveData.postValue(null)
+            }
+        }
+        catch (error: HttpException)
+        {
+            print(error)
+            recyclerListLiveData.postValue(null)
+        }
+
+        recyclerListLiveData.postValue(response)
+
+        println("All notes: $allNotesResponse")
+
+        return response
+    }
+
+    /*suspend fun getUserNotesLocal(userID: Int): ArrayList<NoteResponse>
     {
         val response = noteRemoteDataSource.getUserNotes(userID)
 
@@ -53,29 +92,7 @@ class NoteRepository @Inject constructor(
         recyclerListLiveData.postValue(response)
 
         return response
-    }
-
-    suspend fun getUserNotesLocal(userID: Int): ArrayList<NoteResponse>
-    {
-        val response = noteRemoteDataSource.getUserNotes(userID)
-
-        try
-        {
-            if (response.isEmpty())
-            {
-                recyclerListLiveData.postValue(null)
-            }
-        }
-        catch (error: HttpException)
-        {
-            print(error)
-            recyclerListLiveData.postValue(null)
-        }
-
-        recyclerListLiveData.postValue(response)
-
-        return response
-    }
+    }*/
 
     suspend fun addNote(note: CreateNoteRequest): CreateNoteResponse?
     {

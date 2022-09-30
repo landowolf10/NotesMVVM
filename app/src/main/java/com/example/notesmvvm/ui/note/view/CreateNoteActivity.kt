@@ -37,7 +37,7 @@ class CreateNoteActivity : AppCompatActivity() {
                 return@observe
             }
 
-            viewModel.getUserNotes(it.data.userID)
+            viewModel.getUserNotes(it.data.userID, this)
             Toast.makeText(this, "New note created", Toast.LENGTH_LONG).show()
         }
     }

@@ -47,7 +47,7 @@ class NotesActivity : AppCompatActivity() {
     private fun initViewModel(userID: Int)
     {
         viewModel = ViewModelProvider(this)[NotesActivityViewModel::class.java]
-        viewModel.getUserNotes(userID)
+        viewModel.getUserNotes(userID, this)
 
         viewModel.getNoteLiveData().observe(this) {
             if (it == null)

@@ -23,7 +23,9 @@ data class NoteResponse(
     var content: String
 )
 
+@Entity
 data class CreateNoteRequest(
+    @PrimaryKey
     @SerializedName("id_usuario")
     var userID: Int,
     @SerializedName("titulo")

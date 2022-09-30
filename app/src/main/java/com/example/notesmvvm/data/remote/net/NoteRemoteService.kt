@@ -8,6 +8,9 @@ interface NoteRemoteService {
     @GET("note/{id}")
     suspend fun getUserNotes(@Path("id") userID: Int): ArrayList<NoteResponse>
 
+    @GET("note")
+    suspend fun getAllNotes(): ArrayList<NoteResponse>
+
     @POST("note")
     suspend fun createNote(@Body note: CreateNoteRequest): Response<CreateNoteResponse>
 

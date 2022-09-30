@@ -1,5 +1,6 @@
 package com.example.notesmvvm.ui.note.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -48,10 +49,10 @@ class NotesActivityViewModel @Inject constructor(
         return deleteNoteLiveData
     }
 
-    fun getUserNotes(userID: Int)
+    fun getUserNotes(userID: Int, context: Context)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = noteRepository.getUserNotes(userID)
+            val response = noteRepository.getUserNotes(userID, context)
             recyclerListLiveData.postValue(response)
         }
     }

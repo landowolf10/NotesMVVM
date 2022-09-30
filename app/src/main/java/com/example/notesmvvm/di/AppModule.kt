@@ -1,10 +1,13 @@
 package com.example.notesmvvm.di
 
+import android.content.Context
+import com.example.notesmvvm.data.local.AppDatabase
 import com.example.notesmvvm.data.remote.net.NoteRemoteService
 import com.example.notesmvvm.data.remote.net.UserRemoteService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,7 +18,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitBuilder {
+object AppModule {
     private const val BASE_URL = "http://192.168.0.24:3000/"
     private val interceptor = HttpLoggingInterceptor()
 
@@ -49,4 +52,16 @@ object RetrofitBuilder {
     {
         return retrofit.create(NoteRemoteService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideNotesDatabase(@ApplicationContext appContext: Context) = AppDatabase.getDatabase(appContext)
+
+    @Singleton
+    @Provides
+    fun provideUsersDao(db: AppDatabase) = db.usersDao()
+
+    @Singleton
+    @Provides
+    fun provideNotesDao(db: AppDatabase) = db.notesDao()
 }
